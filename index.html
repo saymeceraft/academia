@@ -1261,98 +1261,27 @@ function migrate(raw){
   return db;
 }
 
-let loadFailed = false; // nuvem ilegível e há indício de que existem dados lá: modo protegido
-
-/** Alguns clientes falham com o parâmetro `shared` explícito; tenta as duas assinaturas */
-async function storageGetCompat(key){
-  try { return await window.storage.get(key, false); }
-  catch(e1){
-    try { return await window.storage.get(key); }
-    catch(e2){ throw e1; }
-  }
-}
-async function storageSetCompat(key, value){
-  try { return await window.storage.set(key, value, false); }
-  catch(e1){
-    try { return await window.storage.set(key, value); }
-    catch(e2){ throw e1; }
-  }
-}
-async function storageListCompat(prefix){
-  try { return await window.storage.list(prefix, false); }
-  catch(e1){
-    try { return await window.storage.list(prefix); }
-    catch(e2){ throw e1; }
-  }
-}
-
 function parseDB(raw){
   try{ return migrate(JSON.parse(raw)); }catch(e){ return null; }
 }
 
-async function loadDB(){
+/** Carrega dados do localStorage (síncrono, sempre disponível no navegador) */
+function loadDB(){
   if(dataLoaded) return;
-  loadFailed = false;
-  const MAX_LOAD_RETRIES = 3;
-  for(let attempt=0; attempt<=MAX_LOAD_RETRIES; attempt++){
-    try{
-      const res = await storageGetCompat(STORAGE_KEY);
-      if(res && res.value) DB = migrate(JSON.parse(res.value));
-      dataLoaded = true;
-      return;
-    }catch(e){
-      const msg = String(e && e.message || '').toLowerCase();
-      if(msg.includes('not found') || msg.includes('404') || msg.includes('no such') || msg.includes('does not exist')){
-        dataLoaded = true;
-        return;
-      }
-      if(attempt === MAX_LOAD_RETRIES){
-        // Última cartada: alguns clientes devolvem "Invalid response format"
-        // até para chave inexistente. A listagem de chaves desambigua:
-        // se a chave não está na lista, o usuário é novo de verdade.
-        try{
-          const l = await storageListCompat('treino');
-          const keys = (l && l.keys) || [];
-          if(!keys.includes(STORAGE_KEY)){
-            dataLoaded = true;
-            return;
-          }
-        }catch(_){ /* list também falhou: mantém modo protegido */ }
-        console.error('Não foi possível carregar dados salvos', e);
-        loadFailed = true;
-        dataLoaded = true;
-        return;
-      }
-      await new Promise(r=> setTimeout(r, 400*(attempt+1)));
-    }
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) DB = migrate(JSON.parse(raw));
+  }catch(e){
+    console.warn('FitTrack: erro ao ler localStorage', e);
   }
+  dataLoaded = true;
 }
 
-async function retryLoad(){
-  showToast('Carregando dados...', 'warn');
-  dataLoaded = false;
-  await loadDB();
-  if(!loadFailed){
-    showToast('Dados carregados', 'ok');
-    if(needsOnboarding()){
-      document.querySelector('.bottom-nav').style.display = 'none';
-      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-      $('onboarding-root').classList.remove('hidden');
-      obShowStep(1);
-    } else {
-      goScreen('home');
-    }
-  } else {
-    showToast('Ainda sem conexão — tente de novo', 'err');
-    renderHome();
-  }
-}
-
-/** Salvamento com debounce + retry automático */
+/** Salvamento com debounce. localStorage é síncrono e nunca bloqueia o cronômetro. */
 let saveTimer = null, retryCount = 0;
-const MAX_RETRIES = 5;
-function scheduleSave(){ clearTimeout(saveTimer); saveTimer = setTimeout(doSave, 600); savePending = true; }
+const MAX_RETRIES = 3;
 let savePending = false;
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer = setTimeout(doSave, 400); savePending = true; }
 document.addEventListener('visibilitychange', ()=>{
   if(document.visibilityState === 'hidden' && savePending){
     clearTimeout(saveTimer);
@@ -1362,23 +1291,22 @@ document.addEventListener('visibilitychange', ()=>{
 window.addEventListener('pagehide', ()=>{
   if(savePending){ clearTimeout(saveTimer); doSave(); }
 });
-async function doSave(){
+function doSave(){
   savePending = false;
-  // Proteção: se não conseguimos ler os dados salvos, gravar agora poderia
-  // sobrescrever o histórico real do usuário com um banco vazio.
-  if(loadFailed){
-    showToast('Sem conexão com seus dados — toque no aviso para recarregar', 'err');
-    return;
-  }
   try{
-    await storageSetCompat(STORAGE_KEY, JSON.stringify(DB));
-    retryCount = 0; showToast('Salvo', 'ok');
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(DB));
+    retryCount = 0;
+    showToast('Salvo', 'ok');
   }catch(e){
-    if(retryCount < MAX_RETRIES){
-      retryCount++;
+    // Quota excedida ou modo privado muito restrito
+    retryCount++;
+    if(retryCount <= MAX_RETRIES){
       showToast('Tentando salvar...', 'warn');
-      saveTimer = setTimeout(doSave, Math.min(1500*retryCount, 6000));
-    } else { retryCount = 0; showToast('Falha ao salvar — tente de novo', 'err'); }
+      saveTimer = setTimeout(doSave, 800);
+    } else {
+      retryCount = 0;
+      showToast('Falha ao salvar — armazenamento cheio?', 'err');
+    }
   }
 }
 
@@ -1544,7 +1472,6 @@ function finishOnboarding(){
 function needsOnboarding(){
   // Se o carregamento falhou, pode haver dados reais que não conseguimos ler.
   // NUNCA abrir onboarding nesse estado — sobrescreveria os dados do usuário.
-  if(loadFailed) return false;
   if(DB.settings.onboardingDone) return false;
   const hasData = Object.keys(DB.workouts).length>0 || Object.keys(DB.checkins).length>0 || DB.settings.metaPeso!=null;
   if(hasData){
@@ -1703,21 +1630,6 @@ function renderReminders(semana, metaSemana){
   const today = new Date().toISOString().slice(0,10);
   const items = [];
 
-  if(loadFailed){
-    items.push({
-      warn:true,
-      icon:`<svg viewBox="0 0 24 24" fill="none"><path d="M12 3l10 18H2L12 3z" stroke="var(--red)" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4" stroke="var(--red)" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="var(--red)"/></svg>`,
-      text:'<b>Não foi possível carregar seus dados salvos.</b> Nada foi perdido — toque para tentar de novo.',
-      action:'Recarregar', go:'__retry__'
-    });
-    items.push({
-      warn:false,
-      icon:`<svg viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/></svg>`,
-      text:'Tem um backup em texto salvo? Cole aqui pra restaurar.',
-      action:'Restaurar', go:'__backup__'
-    });
-  }
-
   if(!DB.checkins[today] || DB.checkins[today].peso == null){
     items.push({
       warn:false,
@@ -1754,13 +1666,13 @@ function renderReminders(semana, metaSemana){
       action:null, go:null
     });
   }
-  items.slice(0, loadFailed ? 4 : 2).forEach(it=>{
+  items.slice(0, 2).forEach(it=>{
     const div = document.createElement('div');
     div.className = 'reminder' + (it.warn?' warn':'');
     div.innerHTML = `<span class="r-icon">${it.icon}</span><span class="r-text">${it.text}</span>` +
       (it.action ? `<button class="r-action">${it.action}</button>` : '');
     if(it.action) div.querySelector('.r-action').onclick = ()=>{
-      if(it.go==='__retry__') retryLoad();
+      if(it.go==='__retry__') location.reload();
       else if(it.go==='__backup__') openBackup();
       else if(it.go==='__updatepeso__') $('btnUpdatePeso').click();
       else goScreen(it.go);
@@ -1813,7 +1725,6 @@ $('backupRestore').onclick = ()=>{
   const parsed = parseDB(raw);
   if(!parsed){ $('backupErr').textContent = 'Esse texto não é um backup válido.'; return; }
   DB = parsed;
-  loadFailed = false;
   scheduleSave();
   $('backupOverlay').classList.remove('show');
   showToast('Dados restaurados', 'ok');
@@ -2502,8 +2413,8 @@ function renderCharts(){
 window.addEventListener('resize', ()=>{ if(activeScreen==='evo') renderCharts(); });
 
 /* ================= BOOT ================= */
-(async function init(){
-  await loadDB();
+(function init(){
+  loadDB();
   if(needsOnboarding()){
     document.querySelector('.bottom-nav').style.display = 'none';
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
