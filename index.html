@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0064)file:///C:/Users/fagner.ribeiro/Downloads/treino-portatil_2.html -->
-<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -458,7 +458,7 @@
 
 <!-- ============ INÍCIO ============ -->
 <!-- ============ ONBOARDING ============ -->
-<div id="onboarding-root" class="">
+<div id="onboarding-root" class="hidden">
   <div class="ob-dots">
     <div class="ob-dot on" data-dot="1"></div>
     <div class="ob-dot" data-dot="2"></div>
@@ -468,7 +468,7 @@
 
   <!-- Passo 1: peso atual -->
   <div class="ob-step active" data-step="1">
-    <div class="ob-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.8"></circle><path d="M12 7v5.5l3.5 2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"></path></svg></div>
+    <div class="ob-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.8"/><path d="M12 7v5.5l3.5 2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/></svg></div>
     <div class="ob-title">Qual seu peso atual?</div>
     <p class="ob-sub">Vamos usar isso como ponto de partida da sua evolução.</p>
     <div class="ob-input-wrap"><input type="number" inputmode="decimal" step="0.1" class="ob-input" id="obPesoAtual" placeholder="0"><span class="ob-unit">kg</span></div>
@@ -477,7 +477,7 @@
 
   <!-- Passo 2: meta de peso -->
   <div class="ob-step" data-step="2">
-    <div class="ob-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"></circle><circle cx="12" cy="12" r="4.2" stroke="var(--accent)" stroke-width="1.6"></circle><circle cx="12" cy="12" r="1.2" fill="var(--accent)"></circle></svg></div>
+    <div class="ob-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="var(--accent)" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="var(--accent)" stroke-width="1.6"/><circle cx="12" cy="12" r="1.2" fill="var(--accent)"/></svg></div>
     <div class="ob-title">Qual sua meta de peso?</div>
     <p class="ob-sub">Vamos acompanhar seu progresso até chegar lá.</p>
     <div class="ob-input-wrap"><input type="number" inputmode="decimal" step="0.1" class="ob-input" id="obMeta" placeholder="0"><span class="ob-unit">kg</span></div>
@@ -486,7 +486,7 @@
 
   <!-- Passo 3: dias de treino -->
   <div class="ob-step" data-step="3">
-    <div class="ob-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2.5" stroke="var(--accent)" stroke-width="1.7"></rect><path d="M8 3v3M16 3v3" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round"></path><path d="M4 9.5h16" stroke="var(--accent)" stroke-width="1.5"></path></svg></div>
+    <div class="ob-icon"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="2.5" stroke="var(--accent)" stroke-width="1.7"/><path d="M8 3v3M16 3v3" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round"/><path d="M4 9.5h16" stroke="var(--accent)" stroke-width="1.5"/></svg></div>
     <div class="ob-title">Quantos dias por semana?</div>
     <p class="ob-sub">Escolha quantas vezes pretende treinar.</p>
     <div class="ob-chips" id="obDiasChips">
@@ -501,7 +501,7 @@
 
   <!-- Passo 4: confirmação -->
   <div class="ob-step" data-step="4">
-    <div class="ob-success-ring"><svg width="42" height="42" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#04170a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+    <div class="ob-success-ring"><svg width="42" height="42" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#04170a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
     <div class="ob-title">Tudo pronto!</div>
     <p class="ob-sub">Confirme seus dados — dá pra ajustar depois quando quiser.</p>
     <div class="ob-summary">
@@ -524,14 +524,16 @@
 
   <div id="reminderArea"></div>
 
+  <p class="sub" id="lastWorkoutLine" style="margin:-4px 0 12px; display:none;"></p>
+
   <div class="next-workout rp" id="nextWorkoutCard">
     <div class="nw-thumb no-img" id="nwThumb"></div>
     <div class="nw-content">
       <div class="nw-eyebrow" id="nwEyebrow">Próximo treino</div>
       <div class="nw-title" id="nwTitle">—</div>
       <div class="nw-chips">
-        <span class="nw-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"></circle><path d="M12 7v5l3.5 2" stroke="#fff" stroke-width="2" stroke-linecap="round"></path></svg><span id="nwDuration">—</span></span>
-        <span class="nw-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2c.5 3 3.5 4 3.5 8a3.5 3.5 0 01-7 0c0-1 .5-2 1-2.5-.2 1.5.8 2.5 1.5 1.5C10.5 8 9 6.5 9 4.5 9 3.5 9.5 2.7 12 2z" fill="#fff"></path><path d="M8.5 13c0 3 1.7 5 3.5 5s3.5-2 3.5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path></svg><span id="nwKcal">—</span></span>
+        <span class="nw-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="2"/><path d="M12 7v5l3.5 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg><span id="nwDuration">—</span></span>
+        <span class="nw-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2c.5 3 3.5 4 3.5 8a3.5 3.5 0 01-7 0c0-1 .5-2 1-2.5-.2 1.5.8 2.5 1.5 1.5C10.5 8 9 6.5 9 4.5 9 3.5 9.5 2.7 12 2z" fill="#fff"/><path d="M8.5 13c0 3 1.7 5 3.5 5s3.5-2 3.5-5" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg><span id="nwKcal">—</span></span>
       </div>
       <button class="btn btn-primary rp" id="btnStartWorkout" style="margin-top:12px; font-size:13px; padding:10px 20px;">Começar treino</button>
     </div>
@@ -543,7 +545,7 @@
         <div class="h-label-row">
           <span class="h-label">Peso atual</span>
           <button class="h-eye-btn rp" id="btnTogglePeso" title="Ocultar/mostrar peso">
-            <svg id="eyeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="#fff" stroke-width="1.8"></path><circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.8"></circle></svg>
+            <svg id="eyeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3" stroke="#fff" stroke-width="1.8"/></svg>
           </button>
         </div>
         <div class="h-value" id="heroPeso">—</div>
@@ -560,7 +562,7 @@
 
   <div class="stat-grid">
     <div class="stat-card"><div class="stat-value" id="stDias">0</div><div class="stat-label">Dias treinados</div></div>
-    <div class="stat-card rp" id="stSemanaCard" style="cursor:pointer;"><div class="stat-value" id="stSemana">0<small>/4</small></div><div class="stat-label" style="display:flex; align-items:center; gap:4px;">Treinos na semana <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="var(--muted)" stroke-width="2" stroke-linejoin="round"></path></svg></div></div>
+    <div class="stat-card rp" id="stSemanaCard" style="cursor:pointer;"><div class="stat-value" id="stSemana">0<small>/4</small></div><div class="stat-label" style="display:flex; align-items:center; gap:4px;">Treinos na semana <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z" stroke="var(--muted)" stroke-width="2" stroke-linejoin="round"/></svg></div></div>
     <div class="stat-card"><div class="stat-value" id="stStreak">0</div><div class="stat-label">Dias seguidos</div></div>
     <div class="stat-card"><div class="stat-value" id="stSeries">0</div><div class="stat-label">Séries totais</div></div>
   </div>
@@ -576,7 +578,7 @@
 
 <!-- ============ TREINO ============ -->
 <section class="screen" id="screen-treino">
-  <div class="screen-head"><button class="back-btn rp" onclick="goScreen(&#39;home&#39;)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><h1>Treino</h1></div>
+  <div class="screen-head"><button class="back-btn rp" onclick="goScreen('home')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Treino</h1></div>
   <p class="sub">Toque nos círculos pra marcar cada série</p>
 
   <div class="top-controls">
@@ -599,14 +601,14 @@
   <div id="cardioArea"></div>
 
   <div class="finish-wrap">
-    <button class="btn btn-green btn-block rp" id="btnFinish" disabled="">Finalizar treino</button>
+    <button class="btn btn-green btn-block rp" id="btnFinish" disabled>Finalizar treino</button>
   </div>
 </section>
 
 <!-- ============ CHECK-IN ============ -->
 <!-- ============ HISTÓRICO ============ -->
 <section class="screen" id="screen-hist">
-  <div class="screen-head"><button class="back-btn rp" onclick="goScreen(&#39;home&#39;)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><h1>Histórico</h1></div>
+  <div class="screen-head"><button class="back-btn rp" onclick="goScreen('home')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Histórico</h1></div>
   <p class="sub">Seu progresso ao longo do tempo</p>
 
   <div class="card">
@@ -631,7 +633,7 @@
 
 <!-- ============ EVOLUÇÃO ============ -->
 <section class="screen" id="screen-evo">
-  <div class="screen-head"><button class="back-btn rp" onclick="goScreen(&#39;home&#39;)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></button><h1>Evolução</h1></div>
+  <div class="screen-head"><button class="back-btn rp" onclick="goScreen('home')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1>Evolução</h1></div>
   <p class="sub">Gráficos do seu progresso</p>
 
   <div class="chart-card"><div class="chart-title">Peso (kg)</div><canvas id="chartPeso"></canvas><div class="chart-empty" id="emptyPeso" style="display:none;">Ainda sem dados. Vá em Check-in e registre seu peso — o gráfico aparece a partir do segundo registro.</div></div>
@@ -643,7 +645,7 @@
 <div class="overlay" id="finishOverlay">
   <div class="finish-box">
     <div class="finish-ring">
-      <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <h2>Treino concluído!</h2>
     <p class="finish-msg" id="finishMsg"></p>
@@ -693,7 +695,7 @@
 <div class="overlay" id="confirmIncompleteOverlay">
   <div class="finish-box">
     <div class="ob-icon" style="background:rgba(255,159,10,.14);">
-      <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3l10 18H2L12 3z" stroke="var(--orange)" stroke-width="1.8" stroke-linejoin="round"></path><path d="M12 10v4" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"></path><circle cx="12" cy="17" r="1" fill="var(--orange)"></circle></svg>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3l10 18H2L12 3z" stroke="var(--orange)" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 10v4" stroke="var(--orange)" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="17" r="1" fill="var(--orange)"/></svg>
     </div>
     <h2 style="font-size:19px;">Treino incompleto</h2>
     <p class="finish-msg" id="incompleteMsg"></p>
@@ -709,28 +711,28 @@
   <div class="lib-panel">
     <div class="lib-head">
       <h2>Adicionar exercício</h2>
-      <button class="back-btn rp" id="libClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round"></path></svg></button>
+      <button class="back-btn rp" id="libClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round"/></svg></button>
     </div>
     <div id="libraryList"></div>
   </div>
 </div>
 
 <!-- ============ NAV ============ -->
-<nav class="bottom-nav" style="display: none;"><div class="nav-inner">
+<nav class="bottom-nav"><div class="nav-inner">
   <button class="nav-item rp" data-screen="home">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 19v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1.5 1.5 0 01-1.5 1.5h-13A1.5 1.5 0 014 19v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
     Início
   </button>
   <button class="nav-item rp" data-screen="treino">
-    <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="9.5" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.7"></rect><rect x="19" y="9.5" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.7"></rect><path d="M5 12h14" stroke="currentColor" stroke-width="1.8"></path></svg>
+    <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="9.5" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="19" y="9.5" width="3" height="5" rx="1" stroke="currentColor" stroke-width="1.7"/><path d="M5 12h14" stroke="currentColor" stroke-width="1.8"/></svg>
     Treino
   </button>
   <button class="nav-item rp" data-screen="hist">
-    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"></circle><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
     Histórico
   </button>
   <button class="nav-item rp" data-screen="evo">
-    <svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><path d="M6 15l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M6 15l4-4 3 3 5-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     Evolução
   </button>
 </div></nav>
@@ -1182,7 +1184,6 @@ const PLAN = {
       {id:'desenvolvimentohalteres', name:'Desenvolvimento com Halteres', desc:'Sentado ou em pé, empurre os halteres para cima sem arquear a lombar.', sets:3, reps:'10', icon:'shoulder'},
       {id:'rosca', name:'Rosca Direta (Barra)', desc:'Cotovelos fixos ao lado do corpo, sem balançar.', sets:3, reps:'12', icon:'rosca'},
       {id:'triceps', name:'Tríceps na Polia', desc:'Cotovelos colados ao tronco, estenda completamente.', sets:3, reps:'12', icon:'triceps'},
-      {id:'lateral', name:'Elevação Lateral (Halteres)', desc:'Suba até a linha dos ombros, cotovelos levemente flexionados.', sets:3, reps:'15', icon:'lateral'},
     ],
     cardio:{ id:'esteirahiit', name:'Esteira HIIT', desc:'30s corrida forte / 90s caminhada — repetir 8x', icon:'treadmill', defMin:15 }
   },
@@ -1203,10 +1204,8 @@ const PLAN = {
       {id:'inclinado', name:'Supino Inclinado', desc:'Foco na porção superior do peitoral.', sets:3, reps:'10', icon:'incline'},
       {id:'remada', name:'Remada', desc:'Aperte as escápulas no final do movimento.', sets:3, reps:'10', icon:'cablerow'},
       {id:'ombro', name:'Desenvolvimento', desc:'Sentado, encoste as costas e evite arquear a lombar.', sets:3, reps:'10', icon:'machineshoulder'},
-      {id:'legpress', name:'Leg Press 45°', desc:'Empurre com os calcanhares, sem travar o joelho no topo.', sets:3, reps:'12', icon:'legpress'},
       {id:'martelo', name:'Rosca Martelo', desc:'Pegada neutra, cotovelos fixos ao lado do corpo.', sets:3, reps:'12', icon:'rosca'},
       {id:'triceps', name:'Tríceps Corda (Polia)', desc:'Cotovelos colados ao tronco, estenda completamente.', sets:3, reps:'12', icon:'triceps'},
-      {id:'abdominalinfra', name:'Abdominal Infra', desc:'Eleve o quadril contraindo a parte inferior do abdômen, sem embalar.', sets:3, reps:'15', icon:'abdominalpolia'},
     ],
     cardio:{ id:'escada', name:'Escada', desc:'Ritmo constante', icon:'elliptical', defMin:20 }
   },
@@ -1597,8 +1596,36 @@ function populateNextWorkout(){
 }
 $('nextWorkoutCard').onclick = ()=> goScreen('treino');
 
+/** Retorna o último treino que foi de fato finalizado (completedAt preenchido) */
+function getLastCompletedWorkout(){
+  let last = null;
+  Object.keys(DB.workouts).forEach(key=>{
+    const w = DB.workouts[key];
+    if(!w.completedAt) return;
+    if(!last || w.completedAt > last.w.completedAt){
+      const [date, day] = key.split('|');
+      last = { date, day, w };
+    }
+  });
+  return last;
+}
+
+function renderLastWorkoutLine(){
+  const el = $('lastWorkoutLine');
+  const last = getLastCompletedWorkout();
+  if(!last){ el.style.display = 'none'; return; }
+  const plan = PLAN[last.day];
+  if(!plan){ el.style.display = 'none'; return; }
+  const dataFmt = new Date(last.date+'T12:00:00').toLocaleDateString('pt-BR', {weekday:'long', day:'2-digit', month:'2-digit'});
+  const nomeDia = plan.label.split('·')[1] ? plan.label.split('·')[1].trim() : plan.label;
+  const letra = last.day==='BONUS' ? 'Bônus' : 'Dia '+last.day;
+  el.textContent = `Último treino: ${letra} — ${nomeDia} · ${dataFmt}`;
+  el.style.display = 'block';
+}
+
 function renderHome(){
   populateNextWorkout();
+  renderLastWorkoutLine();
   const atual = latestCheckinValue('peso');
   const inicial = DB.settings.pesoInicial != null ? {value:+DB.settings.pesoInicial} : firstCheckinValue('peso');
   const meta = DB.settings.metaPeso;
@@ -1676,14 +1703,6 @@ function renderReminders(semana, metaSemana){
     });
   }
 
-  if(!DB.checkins[today] || DB.checkins[today].peso == null){
-    items.push({
-      warn:false,
-      icon:`<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--accent)" stroke-width="1.7"/><path d="M12 7v5l3.5 2" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/></svg>`,
-      text:'Você ainda não registrou seu <b>peso</b> hoje.',
-      action:'Atualizar', go:'__updatepeso__'
-    });
-  }
   const todayDay = suggestDay();
   const wToday = getWorkout(today, todayDay);
   const emAndamento = workoutHasActivity(wToday) && !wToday.completedAt;
@@ -2472,6 +2491,5 @@ window.addEventListener('resize', ()=>{ if(activeScreen==='evo') renderCharts();
   }
 })();
 </script>
-
-
-</body></html>
+</body>
+</html>
