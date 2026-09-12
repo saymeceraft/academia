@@ -12,9 +12,9 @@
 <title>FitTrack — Emagrecimento</title>
 <style>
   :root{
-    --bg:#0a0a0b; --surface:#17181b; --surface2:#1f2023; --accent:#22e06b;
+    --bg:#0a0a0b; --surface:#17181b; --surface2:#1f2023; --accent:#cbf227;
     --text:#f5f5f7; --muted:#8e8e93; --border:#2c2d30;
-    --green:#22e06b; --orange:#ff9f0a; --red:#ff453a;
+    --green:#cbf227; --orange:#ff9f0a; --red:#ff453a; --ontext:#0d1a02;
     --shadow:0 2px 8px rgba(0,0,0,.3), 0 6px 18px rgba(0,0,0,.22);
     --nav-h:64px;
   }
@@ -80,8 +80,8 @@
     position:relative; overflow:hidden; user-select:none;
   }
   .btn:active{ transform:scale(.97); }
-  .btn-primary{ background:var(--accent); color:#fff; }
-  .btn-green{ background:var(--green); color:#fff; }
+  .btn-primary{ background:var(--accent); color:var(--ontext); }
+  .btn-green{ background:var(--green); color:var(--ontext); }
   .btn-ghost{ background:var(--surface); color:var(--text); border:1px solid var(--border); }
   .btn-block{ display:block; width:100%; text-align:center; }
   .btn[disabled]{ opacity:.4; pointer-events:none; }
@@ -121,9 +121,9 @@
   }
 
   .hero{
-    background:linear-gradient(135deg,#0f8a44 0%,#22e06b 100%);
+    background:linear-gradient(135deg,#8fae1c 0%,#cbf227 100%);
     border-radius:18px; padding:22px 20px; color:#fff; margin-bottom:14px;
-    box-shadow:0 6px 20px rgba(34,224,107,.28);
+    box-shadow:0 6px 20px rgba(203,242,39,.22);
   }
   .hero .h-label{ font-size:11.5px; font-weight:600; opacity:.85; text-transform:uppercase; letter-spacing:.05em; }
   .h-label-row{ display:flex; align-items:center; gap:6px; }
@@ -163,7 +163,7 @@
     padding:9px 16px; border-radius:9999px; cursor:pointer; white-space:nowrap;
     transition:.15s; position:relative; overflow:hidden; font-family:inherit;
   }
-  .tab.active{ background:var(--accent); color:#fff; }
+  .tab.active{ background:var(--accent); color:var(--ontext); }
   .tab.bonus.active{ background:var(--orange); }
 
   .workout-stats{
@@ -294,7 +294,7 @@
   }
   .cal-day.other{ color:#c7c7cc; }
   .cal-day.today{ background:var(--surface); border:1.5px solid var(--accent); }
-  .cal-day.trained{ background:var(--accent); color:#fff; }
+  .cal-day.trained{ background:var(--accent); color:var(--ontext); }
   .cal-day.trained.bonusday{ background:var(--orange); }
 
   /* ---------- Evolução ---------- */
@@ -327,7 +327,7 @@
   .hist-row:last-child{ border-bottom:none; }
   .hist-day-chip{
     display:inline-flex; align-items:center; justify-content:center;
-    width:24px; height:24px; border-radius:8px; background:var(--accent); color:#fff;
+    width:24px; height:24px; border-radius:8px; background:var(--accent); color:var(--ontext);
     font-weight:700; font-size:11px; margin-right:8px;
   }
   .hist-day-chip.bonus{ background:var(--orange); }
@@ -390,6 +390,46 @@
     color:var(--text); font-family:inherit; font-size:11px; font-weight:700; cursor:pointer; position:relative; overflow:hidden;
   }
   .lib-day-btn.bonus{ font-size:13px; }
+
+  /* ---------- Instruções do exercício ---------- */
+  .ei-muscles{
+    background:var(--surface); border-radius:10px; padding:9px 12px; margin-bottom:16px;
+    font-size:12px; color:var(--muted); font-weight:600;
+  }
+  .ei-muscles b{ color:var(--text); font-weight:700; }
+  .ei-subtitle{ font-size:13px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
+  .ei-steps{ margin:0 0 18px; padding-left:0; list-style:none; counter-reset:eistep; }
+  .ei-steps li{
+    counter-increment:eistep; position:relative; padding-left:30px; margin-bottom:10px;
+    font-size:12.5px; line-height:1.5; color:var(--text);
+  }
+  .ei-steps li::before{
+    content:counter(eistep); position:absolute; left:0; top:0; width:20px; height:20px;
+    border-radius:9999px; background:var(--accent); color:var(--ontext); font-weight:800;
+    font-size:11px; display:flex; align-items:center; justify-content:center;
+  }
+  .ei-tips{ margin:0; padding-left:0; list-style:none; }
+  .ei-tips li{
+    position:relative; padding-left:22px; margin-bottom:8px; font-size:12.5px;
+    line-height:1.5; color:var(--muted);
+  }
+  .ei-tips li::before{
+    content:'✓'; position:absolute; left:0; top:0; color:var(--accent); font-weight:800; font-size:12px;
+  }
+
+  /* ---------- Selo numerado + status (estilo referência) ---------- */
+  .ex-badge-row{ display:flex; align-items:center; gap:8px; margin-bottom:3px; }
+  .ex-num{
+    width:20px; height:20px; border-radius:9999px; background:var(--surface2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-size:10.5px; font-weight:800; color:var(--muted);
+    flex-shrink:0;
+  }
+  .ex-status{
+    font-size:10px; font-weight:700; padding:2px 9px; border-radius:9999px; display:inline-flex; align-items:center; gap:4px;
+  }
+  .ex-status.done{ background:rgba(203,242,39,.16); color:var(--accent); }
+  .ex-status.pending{ background:var(--surface2); color:var(--muted); }
+  .ex-status .dot{ width:5px; height:5px; border-radius:50%; background:currentColor; }
   .lib-day-btn:active{ transform:scale(.9); }
 
   /* ---------- Onboarding ---------- */
@@ -703,6 +743,37 @@
       <button class="btn btn-ghost" id="btnCancelFinish">Continuar treino</button>
       <button class="btn btn-primary" id="btnConfirmFinish">Finalizar mesmo assim</button>
     </div>
+  </div>
+</div>
+
+<!-- ============ AVISO DE INATIVIDADE ============ -->
+<div class="overlay" id="inactivityOverlay">
+  <div class="finish-box">
+    <div class="ob-icon" style="background:rgba(255,159,10,.14);">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--orange)" stroke-width="1.8"/><path d="M12 7.5V12l3 2" stroke="var(--orange)" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <h2 style="font-size:19px;">Ainda por aí?</h2>
+    <p class="finish-msg">Faz 20 minutos que você não marca nada no treino. Quer continuar ou já finalizar por aqui?</p>
+    <div class="ob-nav" style="margin-top:6px;">
+      <button class="btn btn-ghost" id="btnContinueTraining">Continuar treinando</button>
+      <button class="btn btn-primary" id="btnFinishFromInactivity">Finalizar treino</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ INSTRUÇÕES DO EXERCÍCIO ============ -->
+<div class="overlay" id="exerciseInfoOverlay">
+  <div class="lib-panel" style="max-width:460px;">
+    <div class="lib-head">
+      <h2 id="eiName">Exercício</h2>
+      <button class="back-btn rp" id="eiClose"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="var(--text)" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="icon-wrap has-img" id="eiImgWrap" style="width:100%; height:180px; margin-bottom:14px;"></div>
+    <div class="ei-muscles" id="eiMuscles"></div>
+    <h3 class="ei-subtitle">Como fazer</h3>
+    <ol class="ei-steps" id="eiSteps"></ol>
+    <h3 class="ei-subtitle">Dicas importantes</h3>
+    <ul class="ei-tips" id="eiTips"></ul>
   </div>
 </div>
 
@@ -1031,6 +1102,390 @@ const EXERCISE_LIBRARY = [
   {id:'mountain', name:'Mountain Climber', desc:'Quadril estável, ritmo acelerado.', sets:4, reps:'40s', icon:'mountain', cat:'Cardio/Circuito', bodyweight:true},
   {id:'burpee', name:'Burpee', desc:'Finalizador total body, sem aparelho.', sets:4, reps:'40s', icon:'burpee', cat:'Cardio/Circuito', bodyweight:true},
 ];
+const EXERCISE_INFO = {
+  legpress: { muscles:'Quadríceps, glúteos e posterior de coxa', steps:[
+    'Sente-se no aparelho com as costas totalmente apoiadas no encosto.',
+    'Posicione os pés na plataforma na largura dos ombros, na parte do meio.',
+    'Destrave o aparelho e desça controlado até formar 90° no joelho.',
+    'Empurre a plataforma de volta usando os calcanhares, sem travar o joelho no topo.',
+  ], tips:[
+    'Não deixe o quadril descolar do banco na descida.',
+    'Mantenha os joelhos alinhados com os pés, sem "fechar" pra dentro.',
+    'Expire enquanto empurra a plataforma.',
+  ]},
+  smith: { muscles:'Quadríceps, glúteos e core', steps:[
+    'Posicione a barra na parte superior das costas (trapézio), não no pescoço.',
+    'Pés um pouco à frente do corpo, na largura dos ombros.',
+    'Destrave a barra e desça controlado até a coxa ficar paralela ao chão.',
+    'Suba empurrando o chão com os pés, mantendo o tronco ereto.',
+  ], tips:[
+    'Como a barra é guiada, foque em manter os pés um pouco à frente pra não perder o equilíbrio.',
+    'Evite subir só até a metade — a amplitude completa ativa mais o glúteo.',
+  ]},
+  extensora: { muscles:'Quadríceps (isolado)', steps:[
+    'Sente-se com as costas apoiadas e os joelhos alinhados com o eixo do aparelho.',
+    'Ajuste o encosto das canelas na altura logo acima dos pés.',
+    'Estenda as pernas até quase travar o joelho, contraindo o quadríceps.',
+    'Desça controlado, sem soltar o peso de uma vez.',
+  ], tips:[
+    'A fase de descida (excêntrica) é a que mais gera resultado — não solte rápido.',
+    'Não jogue o corpo pra trás pra ajudar no impulso.',
+  ]},
+  flexora: { muscles:'Posterior de coxa (isquiotibiais)', steps:[
+    'Sente-se e ajuste o apoio das canelas logo acima do calcanhar.',
+    'Segure nas alças laterais pra estabilizar o tronco.',
+    'Flexione os joelhos trazendo os calcanhares em direção aos glúteos.',
+    'Volte controlado até a extensão quase completa.',
+  ], tips:[
+    'Não impulsione com o quadril — o movimento é só do joelho.',
+    'Aperte 1 segundo no ponto de maior contração antes de voltar.',
+  ]},
+  adutora: { muscles:'Adutores (parte interna da coxa)', steps:[
+    'Sente-se com as costas apoiadas e as pernas nos apoios laterais.',
+    'Comece com as pernas afastadas (posição inicial do aparelho).',
+    'Aproxime as pernas contra a resistência até quase se tocarem.',
+    'Volte controlado até a posição inicial, sem soltar de uma vez.',
+  ], tips:[
+    'Movimento lento e controlado — não é pra "bater" as pernas rápido.',
+    'Mantenha a lombar encostada no banco durante todo o movimento.',
+  ]},
+  abdutora: { muscles:'Glúteo médio e abdutores', steps:[
+    'Sente-se com as costas apoiadas e as pernas nos apoios laterais, começando fechadas.',
+    'Afaste as pernas contra a resistência do aparelho.',
+    'Segure 1 segundo na abertura máxima, sentindo o glúteo lateral.',
+    'Volte controlado, sem deixar o peso "cair" de volta.',
+  ], tips:[
+    'Evite usar impulso do tronco pra ajudar a abrir as pernas.',
+    'Ótimo pra ativar o glúteo antes de agachamentos, se quiser usar como aquecimento.',
+  ]},
+  panturrilha: { muscles:'Panturrilha (gastrocnêmio e sóleo)', steps:[
+    'Fique em pé com a ponta dos pés apoiada numa superfície elevada, calcanhar pra fora.',
+    'Desça o calcanhar o máximo possível, alongando a panturrilha.',
+    'Suba na ponta dos pés o mais alto que conseguir.',
+    'Segure 1 segundo no topo antes de descer de novo.',
+  ], tips:[
+    'Amplitude completa importa mais que carga alta nesse exercício.',
+    'Pode fazer segurando um apoio (barra ou máquina) só pro equilíbrio.',
+  ]},
+  stiff: { muscles:'Posterior de coxa, glúteos e lombar', steps:[
+    'Segure a barra com as mãos na largura dos ombros, pés também na largura dos ombros.',
+    'Mantenha os joelhos levemente flexionados (quase travados, não dobrados).',
+    'Incline o quadril pra trás, descendo a barra rente às pernas.',
+    'Desça até sentir alongar o posterior de coxa, depois volte contraindo o glúteo.',
+  ], tips:[
+    'A barra desliza colada na perna o tempo todo — não deixa ela se afastar do corpo.',
+    'Mantenha a lombar neutra (nem arredondada, nem arqueada demais).',
+    'Não é agachamento — o joelho quase não se move, quem trabalha é o quadril.',
+  ]},
+  afundo: { muscles:'Quadríceps, glúteos e estabilizadores', steps:[
+    'Em pé, segurando halteres ao lado do corpo (ou sem peso).',
+    'Dê um passo à frente, mantendo o tronco ereto.',
+    'Desça até os dois joelhos formarem 90°, sem o joelho de trás tocar o chão com força.',
+    'Empurre o chão com a perna da frente pra voltar à posição inicial.',
+  ], tips:[
+    'O joelho da frente não deve ultrapassar muito a linha da ponta do pé.',
+    'Mantenha o tronco na vertical — não incline pra frente.',
+  ]},
+  supino: { muscles:'Peitoral, tríceps e ombro (deltoide anterior)', steps:[
+    'Deite-se no banco do aparelho, pegando as alças na altura do peito.',
+    'Mantenha os pés firmes no chão e as escápulas encostadas no banco.',
+    'Empurre pra cima e à frente, sem travar o cotovelo totalmente.',
+    'Desça controlado até sentir alongar o peito.',
+  ], tips:[
+    'Não arqueie a lombar exageradamente pra "ajudar" a empurrar mais peso.',
+    'Controle a descida — é onde mais se constrói força e músculo.',
+  ]},
+  inclinado: { muscles:'Parte superior do peitoral e ombro', steps:[
+    'Ajuste o banco/aparelho num ângulo de 30-45°.',
+    'Pegue as alças ou halteres na altura do peito superior.',
+    'Empurre para cima, sem travar o cotovelo no topo.',
+    'Desça controlado até sentir alongar a parte superior do peito.',
+  ], tips:[
+    'Ângulos muito altos (acima de 45°) tiram ênfase do peito e jogam pro ombro.',
+    'Mantenha as escápulas retraídas durante todo o movimento.',
+  ]},
+  crucifixo: { muscles:'Peitoral (isolado)', steps:[
+    'Sente-se no aparelho com as costas apoiadas, segurando as alças com cotovelos levemente flexionados.',
+    'Abra os braços controlado, sentindo o alongamento no peito.',
+    'Feche em um movimento de arco, como um abraço, contraindo o peitoral.',
+    'Não bata as alças com força uma na outra no final.',
+  ], tips:[
+    'O cotovelo mantém uma flexão leve e constante — não é um movimento de braço, é de ombro/peito.',
+    'Evite abrir demais além do conforto do ombro.',
+  ]},
+  crossover: { muscles:'Peitoral (foco na parte interna/inferior)', steps:[
+    'Em pé, no centro da polia, segure um cabo em cada mão com os braços abertos.',
+    'Incline levemente o tronco à frente, cotovelos com flexão leve.',
+    'Cruze os cabos à frente do corpo em um movimento de arco.',
+    'Volte controlado até sentir alongar o peito.',
+  ], tips:[
+    'Quanto mais voce cruza as mãos no final, mais foca na parte interna do peito.',
+    'Não use os ombros pra "jogar" o peso — o movimento vem do peitoral.',
+  ]},
+  puxada: { muscles:'Latíssimo do dorso (costas) e bíceps', steps:[
+    'Sente-se e prenda as pernas sob o apoio.',
+    'Segure a barra um pouco mais aberta que a largura dos ombros.',
+    'Puxe a barra até a altura do peito, levando os cotovelos para baixo e para trás.',
+    'Volte controlado até o braço quase esticar.',
+  ], tips:[
+    'Puxe com as costas, não com o braço — imagine "levar o cotovelo ao bolso".',
+    'Não jogue o tronco pra trás pra ajudar a puxar.',
+  ]},
+  remada: { muscles:'Costas (meio das costas) e bíceps', steps:[
+    'Sente-se de frente pro cabo, joelhos levemente flexionados.',
+    'Segure o triângulo ou barra com os braços estendidos à frente.',
+    'Puxe em direção ao abdômen, apertando as escápulas no final.',
+    'Volte controlado sem deixar o peso "puxar" seu tronco pra frente.',
+  ], tips:[
+    'Mantenha a coluna neutra — não arredonde as costas na volta.',
+    'O cotovelo passa rente ao corpo, sem abrir muito pros lados.',
+  ]},
+  remadacurvada: { muscles:'Costas, bíceps e lombar (estabilização)', steps:[
+    'Segure a barra com pegada pronada, na largura dos ombros.',
+    'Incline o tronco à frente (cerca de 45°), joelhos levemente flexionados.',
+    'Puxe a barra em direção ao abdômen, cotovelos para trás.',
+    'Desça controlado até o braço quase esticar.',
+  ], tips:[
+    'Mantenha a lombar neutra o tempo todo — não arredonde.',
+    'Não use impulso do quadril pra "jogar" a barra pra cima.',
+  ]},
+  ombro: { muscles:'Deltoide (ombro) e tríceps', steps:[
+    'Sente-se com as costas apoiadas no encosto do aparelho.',
+    'Segure as alças na altura dos ombros, cotovelos apontando pra baixo.',
+    'Empurre para cima até quase esticar o braço, sem travar o cotovelo.',
+    'Desça controlado até a posição inicial.',
+  ], tips:[
+    'Evite arquear a lombar pra "ajudar" a empurrar mais peso.',
+    'Não desça demais a ponto de forçar o ombro.',
+  ]},
+  lateral: { muscles:'Deltoide lateral (ombro)', steps:[
+    'Em pé ou sentado, segure um halter em cada mão ao lado do corpo.',
+    'Cotovelos levemente flexionados durante todo o movimento.',
+    'Suba os braços até a linha dos ombros, formando um "T" com o corpo.',
+    'Desça controlado, sem deixar o peso cair rápido.',
+  ], tips:[
+    'Não suba mais alto que a linha do ombro — isso sobrecarrega a articulação.',
+    'Evite balançar o tronco pra "ajudar" a subir o peso — use uma carga que permita controle.',
+  ]},
+  remadaalta: { muscles:'Trapézio, deltoide e costas superiores', steps:[
+    'Segure a barra com pegada fechada (mãos próximas), à frente do corpo.',
+    'Puxe a barra para cima rente ao corpo, cotovelos apontando para fora.',
+    'Suba até a barra chegar perto do peito/queixo, cotovelos acima das mãos.',
+    'Desça controlado até os braços quase esticarem.',
+  ], tips:[
+    'Se sentir desconforto no ombro, use uma pegada mais aberta.',
+    'Mantenha a barra sempre próxima ao corpo durante a subida.',
+  ]},
+  encolhimento: { muscles:'Trapézio', steps:[
+    'Em pé, segure halteres ou barra ao lado/à frente do corpo, braços estendidos.',
+    'Suba os ombros em direção às orelhas, sem usar os braços.',
+    'Segure 1 segundo no topo, sentindo a contração no trapézio.',
+    'Desça controlado até o ombro voltar à posição normal.',
+  ], tips:[
+    'Não gire os ombros — o movimento é só pra cima e pra baixo.',
+    'Evite usar o pescoço ou balançar o corpo pra ajudar.',
+  ]},
+  rosca: { muscles:'Bíceps', steps:[
+    'Em pé, segure a barra com as mãos na largura dos ombros, braços estendidos.',
+    'Mantenha os cotovelos fixos ao lado do corpo durante todo o movimento.',
+    'Flexione o braço levando a barra até a altura do ombro.',
+    'Desça controlado até o braço quase esticar.',
+  ], tips:[
+    'Não balance o corpo pra "ajudar" a levantar o peso.',
+    'O cotovelo não deve se mover pra frente nem pra trás.',
+  ]},
+  martelo: { muscles:'Bíceps e antebraço', steps:[
+    'Em pé, segure um halter em cada mão com a palma virada para o corpo (pegada neutra).',
+    'Mantenha os cotovelos fixos ao lado do corpo.',
+    'Flexione o braço levando o halter até a altura do ombro, sem girar o pulso.',
+    'Desça controlado até o braço quase esticar.',
+  ], tips:[
+    'A pegada neutra (martelo) trabalha também o antebraço, diferente da rosca direta.',
+    'Evite fazer os dois braços ao mesmo tempo se notar que está usando impulso do corpo.',
+  ]},
+  triceps: { muscles:'Tríceps', steps:[
+    'Em pé, de frente pra polia alta, segure a barra ou corda com os cotovelos colados ao tronco.',
+    'Mantenha o cotovelo fixo durante todo o movimento — só o antebraço se move.',
+    'Estenda o braço completamente para baixo, contraindo o tríceps.',
+    'Volte controlado até o antebraço formar 90° com o braço.',
+  ], tips:[
+    'Se usar a corda, abra as pontas no final do movimento pra ativar mais o tríceps.',
+    'Não deixe o cotovelo "voar" para frente — ele fica preso ao corpo o tempo todo.',
+  ]},
+  abdominalpolia: { muscles:'Abdômen (reto abdominal)', steps:[
+    'Ajoelhe-se de frente pra polia alta, segurando a corda atrás da cabeça/ombros.',
+    'Mantenha o quadril parado durante todo o movimento.',
+    'Flexione o tronco pra baixo, contraindo o abdômen (não puxando com os braços).',
+    'Volte controlado até a posição inicial, sem relaxar totalmente.',
+  ], tips:[
+    'O movimento vem da contração do abdômen, não da força dos braços puxando a corda.',
+    'Exale enquanto desce/contrai.',
+  ]},
+  prancha: { muscles:'Core (abdômen, lombar e estabilizadores)', steps:[
+    'Apoie os antebraços e as pontas dos pés no chão, corpo reto como uma tábua.',
+    'Contraia o abdômen e o glúteo pra manter a linha reta da cabeça aos pés.',
+    'Mantenha a posição pelo tempo determinado, respirando normalmente.',
+    'Não prenda a respiração durante o exercício.',
+  ], tips:[
+    'Não deixe o quadril subir (posição de "pico") nem cair (arquear a lombar).',
+    'Olhe para o chão, mantendo o pescoço alinhado com a coluna.',
+  ]},
+  agachamentolivre: { muscles:'Quadríceps, glúteos, lombar e core', steps:[
+    'Posicione a barra na parte superior das costas (trapézio), seguindo com as mãos um pouco mais abertas que os ombros.',
+    'Pés na largura dos ombros, pontas levemente para fora.',
+    'Desça controlado como se fosse sentar, mantendo o tronco ereto e o peito aberto.',
+    'Suba empurrando o chão com os pés, sem os joelhos "colapsarem" para dentro.',
+  ], tips:[
+    'Mantenha o olhar à frente, não pra baixo, pra ajudar a manter a postura.',
+    'Desça até pelo menos a coxa ficar paralela ao chão, se a mobilidade permitir.',
+    'Se for iniciante nesse exercício, comece com carga leve pra treinar a técnica.',
+  ]},
+  mesaflexora: { muscles:'Posterior de coxa (isquiotibiais)', steps:[
+    'Deite-se de bruços no aparelho, com os joelhos alinhados ao eixo de rotação.',
+    'Ajuste o apoio das canelas logo acima do calcanhar.',
+    'Flexione os joelhos trazendo os calcanhares em direção aos glúteos.',
+    'Volte controlado até a extensão quase completa.',
+  ], tips:[
+    'Não levante o quadril do banco durante o movimento.',
+    'Controle bem a volta — não deixe o peso "cair".',
+  ]},
+  elevacaopelvica: { muscles:'Glúteos e posterior de coxa', steps:[
+    'Deite-se de costas, com a parte superior das costas apoiada num banco (ou no chão) e a barra sobre o quadril.',
+    'Pés apoiados no chão, joelhos flexionados, na largura dos ombros.',
+    'Suba o quadril contraindo os glúteos, até o corpo formar uma linha reta dos ombros aos joelhos.',
+    'Desça controlado, sem bater o quadril no chão.',
+  ], tips:[
+    'Aperte bem o glúteo no topo do movimento — é o ponto de maior ativação.',
+    'Evite hiperestender a lombar no topo — o movimento vem do quadril.',
+  ]},
+  stiffhalteres: { muscles:'Posterior de coxa, glúteos e lombar', steps:[
+    'Segure um halter em cada mão, à frente das coxas.',
+    'Mantenha os joelhos levemente flexionados (quase travados).',
+    'Incline o quadril para trás, descendo os halteres rente às pernas.',
+    'Desça até sentir alongar o posterior de coxa, depois volte contraindo o glúteo.',
+  ], tips:[
+    'Os halteres deslizam colados nas pernas o tempo todo.',
+    'Mantenha a lombar neutra — não arredonde as costas.',
+  ]},
+  desenvolvimentohalteres: { muscles:'Deltoide (ombro) e tríceps', steps:[
+    'Sentado ou em pé, segure um halter em cada mão na altura dos ombros.',
+    'Mantenha o core contraído pra não arquear a lombar.',
+    'Empurre os halteres para cima até quase esticar os braços.',
+    'Desça controlado até a altura dos ombros novamente.',
+  ], tips:[
+    'Não bata os halteres um no outro no topo do movimento.',
+    'Se sentir a lombar arqueando muito, faça sentado com encosto.',
+  ]},
+  abdominalinfra: { muscles:'Abdômen inferior', steps:[
+    'Deite-se de costas, mãos ao lado do corpo ou embaixo do quadril pra apoio.',
+    'Eleve as pernas (ou o quadril, se for elevação de quadril) contraindo o abdômen inferior.',
+    'Suba até sentir a contração completa, sem embalar o corpo.',
+    'Desça controlado, sem deixar as pernas caírem livremente.',
+  ], tips:[
+    'O movimento é lento e controlado — velocidade tira a eficácia do exercício.',
+    'Evite arquear a lombar do chão durante a descida das pernas.',
+  ]},
+  jumpsquat: { muscles:'Quadríceps, glúteos e panturrilha (potência)', steps:[
+    'Fique em pé, pés na largura dos ombros.',
+    'Agache até a coxa ficar próxima de paralela ao chão.',
+    'Salte explosivamente para cima, estendendo o corpo totalmente.',
+    'Aterrisse suave, flexionando os joelhos pra absorver o impacto, e já desça pro próximo agachamento.',
+  ], tips:[
+    'Aterrisse sempre com os joelhos levemente flexionados, nunca travados.',
+    'Se tiver dor no joelho, reduza a intensidade do salto.',
+  ]},
+  stepup: { muscles:'Quadríceps, glúteos e equilíbrio', steps:[
+    'Fique de frente para um banco ou caixote resistente.',
+    'Suba apoiando um pé inteiro no banco, empurrando o corpo para cima.',
+    'Complete o movimento em pé sobre o banco, sem impulsionar com a perna de trás.',
+    'Desça controlado pela mesma perna que subiu.',
+  ], tips:[
+    'Use uma altura de banco que permita o joelho não passar muito da ponta do pé.',
+    'Alterne as pernas ou complete todas as reps de um lado antes de trocar, conforme seu treino pedir.',
+  ]},
+  mountain: { muscles:'Core, ombro e cardio', steps:[
+    'Fique na posição de prancha alta, mãos apoiadas no chão, braços estendidos.',
+    'Leve um joelho em direção ao peito, mantendo o quadril estável.',
+    'Volte a perna à posição inicial e repita com a outra perna.',
+    'Alterne as pernas em ritmo acelerado, como se estivesse "correndo" no lugar.',
+  ], tips:[
+    'Não deixe o quadril subir — mantenha o corpo alinhado como numa prancha.',
+    'Comece mais devagar pra garantir a técnica antes de acelerar.',
+  ]},
+  burpee: { muscles:'Corpo inteiro (força e cardio)', steps:[
+    'Comece em pé, depois agache e apoie as mãos no chão.',
+    'Jogue as pernas para trás, ficando em posição de prancha.',
+    'Faça uma flexão de braço (opcional), depois volte os pés para perto das mãos.',
+    'Salte para cima com os braços estendidos, e repita.',
+  ], tips:[
+    'Se for iniciante, pode tirar a flexão e/ou o salto pra reduzir o impacto.',
+    'Mantenha o core contraído na fase de prancha pra proteger a lombar.',
+  ]},
+  esteirahiit: { muscles:'Cardiovascular (intervalado de alta intensidade)', steps:[
+    'Faça um aquecimento de 2-3 minutos em ritmo leve.',
+    'Acelere para um ritmo forte (corrida) por 30 segundos.',
+    'Reduza para caminhada por 90 segundos, recuperando o fôlego.',
+    'Repita o ciclo forte/leve pelo tempo total do treino.',
+  ], tips:[
+    'No trecho "forte", o esforço deve ser de verdade — você deve sentir dificuldade de conversar.',
+    'Ajuste a inclinação pra aumentar a intensidade sem precisar correr mais rápido.',
+  ]},
+  caminhadainclinada: { muscles:'Cardiovascular e posterior de coxa/glúteo', steps:[
+    'Ajuste a esteira para a inclinação indicada (8-12%).',
+    'Configure a velocidade entre 5,5 e 6 km/h — ritmo de caminhada rápida.',
+    'Mantenha a postura ereta, sem se apoiar demais no corrimão.',
+    'Mantenha o ritmo constante durante todo o tempo do treino.',
+  ], tips:[
+    'Segurar no corrimão o tempo todo reduz o gasto calórico real — use só se precisar de apoio pontual.',
+    'Se sentir o ritmo fácil demais, aumente a inclinação antes de aumentar a velocidade.',
+  ]},
+  bikeeliptico: { muscles:'Cardiovascular, pernas e (no elíptico) parte superior também', steps:[
+    'Ajuste o banco/altura do aparelho antes de começar.',
+    'Mantenha um ritmo moderado e constante — nem lento demais, nem no limite.',
+    'No elíptico, use também os braços empurrando/puxando as alças, se disponível.',
+    'Mantenha a postura ereta, sem se debruçar sobre o equipamento.',
+  ], tips:[
+    'É uma boa opção de cardio de baixo impacto pras articulações.',
+    'Se quiser mais intensidade, alterne 1 minuto forte com 2 minutos moderado.',
+  ]},
+  escada: { muscles:'Cardiovascular, quadríceps e glúteos', steps:[
+    'Segure levemente nas laterais só para equilíbrio, sem apoiar o peso do corpo nelas.',
+    'Suba os degraus num ritmo constante, pisando com o pé inteiro.',
+    'Mantenha a postura ereta, sem se inclinar muito à frente.',
+    'Mantenha o ritmo pelo tempo total do treino.',
+  ], tips:[
+    'Apoiar demais nas laterais reduz bastante o gasto calórico real do exercício.',
+    'É um dos cardios mais exigentes para glúteo e quadríceps ao mesmo tempo.',
+  ]},
+  esteira: { muscles:'Cardiovascular', steps:[
+    'Comece com um ritmo leve de aquecimento por 2-3 minutos.',
+    'Ajuste velocidade e inclinação conforme o objetivo do treino.',
+    'Mantenha a postura ereta, olhando à frente.',
+    'Finalize com 2-3 minutos de desaceleração antes de parar.',
+  ], tips:[
+    'Evite se apoiar no corrimão frontal durante a corrida/caminhada.',
+    'Aumente a inclinação antes de aumentar muito a velocidade, se quiser mais intensidade com menos impacto.',
+  ]},
+  bikeb: { muscles:'Cardiovascular e pernas', steps:[
+    'Ajuste a altura do banco antes de começar.',
+    'Mantenha o pedalar num ritmo constante conforme o objetivo (contínuo ou intervalado).',
+    'Mantenha a postura ereta ou levemente inclinada, sem forçar a lombar.',
+    'Ajuste a resistência conforme a intensidade desejada.',
+  ], tips:[
+    'Bom pra quem quer cardio com baixo impacto nas articulações.',
+    'Alterne resistência alta/baixa pra fazer intervalado, se quiser mais intensidade.',
+  ]},
+  eliptico: { muscles:'Cardiovascular, pernas e parte superior', steps:[
+    'Posicione os pés nos pedais e segure as alças móveis.',
+    'Mova pernas e braços de forma coordenada, num ritmo constante.',
+    'Mantenha a postura ereta, sem se apoiar todo o peso nas alças.',
+    'Ajuste a resistência/inclinação conforme a intensidade desejada.',
+  ], tips:[
+    'Movimento de baixo impacto, bom para quem tem sensibilidade nas articulações.',
+    'Inverta o sentido do movimento de vez em quando pra variar o estímulo.',
+  ]},
+};
+
 const LIB_BY_ID = {};
 EXERCISE_LIBRARY.forEach(e=> LIB_BY_ID[e.id] = e);
 
@@ -1107,6 +1562,27 @@ function removeExerciseFromDay(exId, day){
   renderTreino();
 }
 
+/** Abre o card de instruções (como fazer + dicas) de um exercício */
+function openExerciseInfo(ex){
+  const info = EXERCISE_INFO[ex.id];
+  $('eiName').textContent = ex.name;
+
+  const imgWrap = $('eiImgWrap');
+  if(typeof EX_IMAGES!=='undefined' && EX_IMAGES[ex.id]){
+    imgWrap.classList.add('has-img');
+    imgWrap.innerHTML = `<img src="${EX_IMAGES[ex.id]}" alt="${ex.name}" style="object-fit:cover;">`;
+  } else {
+    imgWrap.classList.remove('has-img');
+    imgWrap.style.background = 'var(--accent)';
+    imgWrap.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">${ICONS[ex.icon]||''}</div>`;
+  }
+
+  $('eiMuscles').innerHTML = info ? `<b>Músculos:</b> ${info.muscles}` : `${ex.desc}`;
+  $('eiSteps').innerHTML = info ? info.steps.map(s=>`<li>${s}</li>`).join('') : `<li>${ex.desc}</li>`;
+  $('eiTips').innerHTML = info && info.tips.length ? info.tips.map(t=>`<li>${t}</li>`).join('') : '<li>Sem dicas adicionais cadastradas pra esse exercício.</li>';
+
+  $('exerciseInfoOverlay').classList.add('show');
+}
 function openLibrary(){
   renderLibrary();
   $('libraryOverlay').classList.add('show');
@@ -1348,6 +1824,7 @@ let activeScreen = 'home';
 const $ = id => document.getElementById(id);
 const entryKey = (d, day) => `${d}|${day}`;
 $('libClose').onclick = ()=> $('libraryOverlay').classList.remove('show');
+$('eiClose').onclick = ()=> $('exerciseInfoOverlay').classList.remove('show');
 
 function getWorkout(d, day){
   const k = entryKey(d, day);
@@ -1677,7 +2154,7 @@ function renderHome(){
 
 function renderHomeWeightChart(){
   const peso = seriesFromCheckins('peso').slice(-10);
-  const ok = drawLineChart($('chartPesoHome'), peso, '#22e06b');
+  const ok = drawLineChart($('chartPesoHome'), peso, '#cbf227');
   $('emptyPesoHome').style.display = ok ? 'none' : 'block';
   $('chartPesoHome').style.display = ok ? 'block' : 'none';
 }
@@ -1897,6 +2374,39 @@ document.addEventListener('visibilitychange', ()=>{
   }
 });
 
+/* ---- Aviso de inatividade: se o app ficar 20min sem nenhum toque
+   enquanto há um treino em andamento, pergunta se quer finalizar ---- */
+const INACTIVITY_MS = 20*60*1000;
+let lastInteractionTime = Date.now();
+let inactivityPromptShown = false;
+document.addEventListener('pointerdown', ()=>{ lastInteractionTime = Date.now(); }, true);
+
+function checkInactivity(){
+  if(inactivityPromptShown || !timerRef) return;
+  const w = timerRef.w;
+  if(w.completedAt || !workoutHasActivity(w)) return;
+  if(Date.now() - lastInteractionTime >= INACTIVITY_MS){
+    inactivityPromptShown = true;
+    $('inactivityOverlay').classList.add('show');
+  }
+}
+$('btnContinueTraining').onclick = ()=>{
+  $('inactivityOverlay').classList.remove('show');
+  inactivityPromptShown = false;
+  lastInteractionTime = Date.now();
+};
+$('btnFinishFromInactivity').onclick = ()=>{
+  $('inactivityOverlay').classList.remove('show');
+  inactivityPromptShown = false;
+  if(timerRef){
+    const [d, day] = timerRef.key.split('|');
+    currentDate = d; currentDay = day;
+  }
+  if(activeScreen !== 'treino') goScreen('treino');
+  else renderTreino();
+  $('btnFinish').click();
+};
+
 function tickTimer(){
   const w = getWorkout(currentDate, currentDay);
   if(!w.completedAt && (w.segmentStart || w.activeMs>0)){
@@ -1905,6 +2415,7 @@ function tickTimer(){
     $('timerBadge').style.display = 'inline';
     $('timerBadge').textContent = '● '+fmtDur(sec);
   }
+  checkInactivity();
 }
 function startTimerLoop(){
   tickTimer(); // atualização imediata, sem esperar o primeiro segundo
@@ -1948,7 +2459,7 @@ function renderTreino(){
     listEl.appendChild(warm);
   }
 
-  dayExercises.forEach(ex=>{
+  dayExercises.forEach((ex, exIdx)=>{
     const checks = w.checks[ex.id];
     const allDone = checks.every(Boolean);
     const card = document.createElement('div');
@@ -1971,6 +2482,9 @@ function renderTreino(){
 
     const iconWrap = document.createElement('div');
     iconWrap.className = 'icon-wrap';
+    iconWrap.style.cursor = 'pointer';
+    iconWrap.title = 'Ver como fazer';
+    iconWrap.onclick = (e)=>{ e.stopPropagation(); openExerciseInfo(ex); };
     if(typeof EX_IMAGES!=='undefined' && EX_IMAGES[ex.id]){
       iconWrap.classList.add('has-img');
       const img = document.createElement('img');
@@ -1984,7 +2498,12 @@ function renderTreino(){
 
     const body = document.createElement('div');
     body.className = 'ex-body';
-    body.innerHTML = `<div class="ex-name">${ex.name}</div><p class="ex-desc">${ex.desc} · ${ex.reps} reps</p>`;
+    body.innerHTML = `
+      <div class="ex-badge-row">
+        <span class="ex-num">${exIdx+1}</span>
+        <span class="ex-status ${allDone?'done':'pending'}"><span class="dot"></span>${allDone?'Concluído':'Pendente'}</span>
+      </div>
+      <div class="ex-name">${ex.name}</div><p class="ex-desc">${ex.desc} · ${ex.reps} reps</p>`;
 
     if(!ex.bodyweight){
       const loadRow = document.createElement('div');
@@ -2167,6 +2686,9 @@ function renderCardio(w, plan){
   head.className = 'cardio-head';
   const iw = document.createElement('div');
   iw.className = 'icon-wrap';
+  iw.style.cursor = 'pointer';
+  iw.title = 'Ver como fazer';
+  iw.onclick = ()=> openExerciseInfo({id:cardioObj.id, name:cardioObj.name, desc:cardioObj.desc, icon:cardioObj.icon});
   if(typeof EX_IMAGES!=='undefined' && EX_IMAGES[cardioObj.id]){
     iw.classList.add('has-img');
     const img = document.createElement('img'); img.src = EX_IMAGES[cardioObj.id]; img.alt = cardioObj.name;
@@ -2455,7 +2977,7 @@ function drawBarChart(cv, pts, color){
 function renderCharts(){
   requestAnimationFrame(()=>{
     const peso = seriesFromCheckins('peso');
-    const okP = drawLineChart($('chartPeso'), peso, '#007aff');
+    const okP = drawLineChart($('chartPeso'), peso, '#cbf227');
     $('emptyPeso').style.display = okP ? 'none' : 'block';
     $('chartPeso').style.display = okP ? 'block' : 'none';
 
